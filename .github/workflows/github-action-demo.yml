@@ -17,9 +17,11 @@ jobs:
       - name: checkout git
         uses: actions/checkout@v4
 
-
       - name: install pnpm
         run: npm i -g pnpm
+
+      - name: setup pnpm
+        run: pnpm setup
 
       - name: install deps
         run: pnpm install --no-frozen-lockfile && pnpm add -g @wpe-tkpd/bundlesize
