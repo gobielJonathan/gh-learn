@@ -46,7 +46,7 @@ jobs:
         id: report
         uses: ./.github/actions/format-bundle-size-report
         with:
-          output: ${{ steps.config.outputs.config.bundleSizeOutput }}
+          output: ${{ steps.config.outputs.bundleSizeOutput }}
           
 
       - name: post bundle size report
@@ -63,13 +63,11 @@ jobs:
             const messageBody = ${{ steps.report.outputs.report }}
             const issueNumber = ${{ github.event.pull_request.number }}
             
-            (async function addComment() {
-              await fetch(`https://api.github.com/repos/tokopedia/skipper-web-framework/issues/${issueNumber}/comments`, {
+            await fetch(`https://api.github.com/repos/tokopedia/skipper-web-framework/issues/${issueNumber}/comments`, {
                 method: "POST",
                 headers: baseHeaders,
                 body: JSON.stringify(messageBody),
               });
-            })();
 
       
       

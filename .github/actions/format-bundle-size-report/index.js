@@ -1,7 +1,7 @@
 const bundler = require("./utils");
 const core = require("@actions/core");
 
-const bundleSizeOutput = core.getInput("bundle-size-output");
+const bundleSizeOutput = core.getInput("bundleSizeOutput");
 
 const sizeMap = bundler.getSizeMap(bundleSizeOutput);
 
