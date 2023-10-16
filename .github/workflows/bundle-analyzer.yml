@@ -62,13 +62,14 @@ jobs:
             };
 
             const messageBody = `${{ steps.report.outputs.report }}`
-            const issueNumber = `${{ github.event.pull_request.number }}`
+            # const issueNumber = `${{ github.event.pull_request.number }}`
 
-            fetch(`https://github.com/gobielJonathan/gh-learn/issues/${issueNumber}/comments`, {
-              method: "POST",
-              headers: baseHeaders,
-              body: messageBody,
-            });
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: messageBody
+            })
 
       
       
