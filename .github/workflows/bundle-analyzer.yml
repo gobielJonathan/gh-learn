@@ -57,7 +57,7 @@ jobs:
             const baseHeaders = {
               Accept: "application/vnd.github.v3+json",
               "Content-Type": "application/json",
-              Authorization: `token ${{ secrets.gh_token }}`,
+              Authorization: `token ${{ secrets.GH_TOKEN }}`,
               "User-Agent": "tokopedia-lite-pull-request-bot",
             };
 
