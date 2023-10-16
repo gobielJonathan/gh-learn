@@ -22,7 +22,7 @@ jobs:
         run: npm i -g pnpm
 
       - name: install deps
-        run: pnpm i && pnpm install -g @wpe-tkpd/bundlesize
+        run: pnpm install --no-frozen-lockfile && pnpm add -g @wpe-tkpd/bundlesize
 
       - name: build code
         run: pnpm build
