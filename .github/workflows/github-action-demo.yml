@@ -1,0 +1,9 @@
+name: action demo
+run-name: is testing out github action
+on: [push]
+jobs:
+  explore-github-action: 
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "hello world, the jobs automatically trigger by a ${{ github.event_name }} event."
+      
