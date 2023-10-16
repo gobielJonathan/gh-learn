@@ -63,7 +63,7 @@ jobs:
             const messageBody = ${{ steps.report.outputs.report }}
             const issueNumber = ${{ github.event.pull_request.number }}
             
-            await fetch(`https://api.github.com/repos/tokopedia/skipper-web-framework/issues/${issueNumber}/comments`, {
+            await fetch(`https://github.com/gobielJonathan/gh-learn/issues/${issueNumber}/comments`, {
                 method: "POST",
                 headers: baseHeaders,
                 body: JSON.stringify(messageBody),
