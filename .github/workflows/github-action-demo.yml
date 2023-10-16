@@ -6,9 +6,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: echo "hello world, the jobs automatically trigger by a ${{ github.event_name }} event."
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: '18.17'
-      - run: npm -v
+      - uses: actions/checkout@v4
+      - run: node index.js
+      
       
