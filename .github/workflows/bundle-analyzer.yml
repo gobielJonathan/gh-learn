@@ -61,8 +61,9 @@ jobs:
               "User-Agent": "tokopedia-lite-pull-request-bot",
             };
 
-            const messageBody = ${{ steps.report.outputs.report }}
-            const issueNumber = ${{ github.event.pull_request.number }}
+            const messageBody = "${{ steps.report.outputs.report }}"
+            const issueNumber = "${{ github.event.pull_request.number }}"
+            
             console.log({url : `https://github.com/gobielJonathan/gh-learn/issues/${issueNumber}/comments` , body : {
               method: "POST",
               headers: baseHeaders,
