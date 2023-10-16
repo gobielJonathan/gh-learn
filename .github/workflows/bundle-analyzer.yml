@@ -62,7 +62,6 @@ jobs:
             };
 
             const messageBody = `${{ steps.report.outputs.report }}`
-            # const issueNumber = `${{ github.event.pull_request.number }}`
 
             github.issues.createComment({
               issue_number: context.issue.number,
