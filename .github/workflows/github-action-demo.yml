@@ -21,6 +21,7 @@ jobs:
         run: npm i -g pnpm
 
       - name: setup pnpm
+        shell: bash
         run: pnpm setup
 
       - name: install deps
