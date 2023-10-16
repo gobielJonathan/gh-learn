@@ -53,17 +53,11 @@ jobs:
       - name: post bundle size report
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
-            const baseHeaders = {
-              Accept: "application/vnd.github.v3+json",
-              "Content-Type": "application/json",
-              Authorization: `token ${{ secrets.GH_TOKEN }}`,
-              "User-Agent": "tokopedia-lite-pull-request-bot",
-            };
-
             const messageBody = `${{ steps.report.outputs.report }}`
-
-             github.rest.issues.createComment({
+            
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
