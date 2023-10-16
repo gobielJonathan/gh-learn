@@ -17,11 +17,12 @@ jobs:
       - name: checkout git
         uses: actions/checkout@v4
 
-      - name: install deps
-        run: npm install -g @wpe-tkpd/bundlesize
 
       - name: install pnpm
         run: npm i -g pnpm
+
+      - name: install deps
+        run: pnpm i && pnpm install -g @wpe-tkpd/bundlesize
 
       - name: build code
         run: pnpm build
