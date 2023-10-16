@@ -13,7 +13,6 @@ jobs:
   explore-github-action: 
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "hello world, the jobs automatically trigger by a ${{ github.event_name }} event."
       - name: setup node
         uses: actions/setup-node@v3
         with:
