@@ -1,13 +1,15 @@
 name: Bundle Size report
 description: generate bundle size report
-runs:
-  using: composite
-  steps:
-    - name: get bundle size report
-      shell: bash
-      id: report
-      run: node index.js
-      with:
-        gh_token: ${{ secret.gh_token}}
 
+outputs:
+  bundleSizeOutput:
+    description: bundle size output
+  bundleSizeFailed:
+    description: bundle size failed
+  possibleErrorMessage:
+    description: possible error message
+    
+runs:
+  using: node16
+  main: index.js
     

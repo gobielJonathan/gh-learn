@@ -2,17 +2,17 @@ name: Format report
 description: format bundle size report
 
 inputs:
-  output: 
+  bundleSizeOutput: 
     required: true
     description: bundle size report output
+
+
+outputs:
+  report: 
+    description: output formatted message
     
 runs:
-  using: composite
-  steps:
-    - name: format bundle size report
-      shell: bash
-      run: node index.js
-      with:
-        bundle-size-output: {{ input.output }}
+  using: node16
+  main: index.js
 
     
