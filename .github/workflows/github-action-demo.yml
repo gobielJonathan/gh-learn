@@ -1,15 +1,36 @@
 name: action demo
 run-name: ${{ github.actor }} is testing out github action
 on: [push]
+env: 
+  build_dir: "build"
+
 jobs:
   explore-github-action: 
     runs-on: ubuntu-22.04
     steps:
       - run: echo "hello world, the jobs automatically trigger by a ${{ github.event_name }} event."
-      - uses: actions/setup-node@v3
+      - name: setup node
+        uses: actions/setup-node@v3
         with:
           node-version: '18.17'
-      - uses: actions/checkout@v4
-      - run: node index.js
+
+      - name: checkout git
+        uses: actions/checkout@v4
+
+      - name: install deps
+        run: npm install -g @wpe-tkpd/bundlesize
+
+      - name: install pnpm
+        run: npm i -g pnpm
+
+      - name: build code
+        run: pnpm build
+
+      - name: bundle size
+        run: pnpm bundle-size
+
+      - name: get bundle size report
+        run: node $build_dir/create-table.js
+      
       
       

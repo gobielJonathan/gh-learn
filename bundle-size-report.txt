@@ -1,0 +1,8 @@
+ FAIL  ./build/bundle-size.js: 3.54KB > maxSize 1KB (brotli) 
+
+ FAIL  ./build/create-table.js: 2.34KB > maxSize 1KB (brotli) 
+
+ FAIL  ./build/index.js: 33.98KB > maxSize 1KB (brotli) 
+
+ FAIL  ./build/math.js: 34.01KB > maxSize 1KB (brotli) 
+
