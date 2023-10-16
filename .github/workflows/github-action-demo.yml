@@ -52,7 +52,6 @@ jobs:
       - name: post bundle size report
         uses: actions/github-script@v6
         with:
-          node-version: 18
           script: |
             const baseHeaders = {
               Accept: "application/vnd.github.v3+json",
@@ -64,7 +63,7 @@ jobs:
             const messageBody = ${{ steps.report.outputs.report }}
             const issueNumber = ${{ github.event.pull_request.number }}
             
-            await fetch(`https://github.com/gobielJonathan/gh-learn/issues/${issueNumber}/comments`, {
+            fetch(`https://github.com/gobielJonathan/gh-learn/issues/${issueNumber}/comments`, {
               method: "POST",
               headers: baseHeaders,
               body: JSON.stringify(messageBody),
