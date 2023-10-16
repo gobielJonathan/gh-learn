@@ -23,7 +23,7 @@ jobs:
           version: 8
 
       - name: install deps
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: install bundlesize standalone deps
         run:  pnpm add -g @wpe-tkpd/bundlesize
