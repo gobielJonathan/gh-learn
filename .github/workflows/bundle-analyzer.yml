@@ -47,7 +47,7 @@ jobs:
         id: report
         uses: ./.github/actions/format-bundle-size-report
         with:
-          output: ${{ steps.config.outputs.bundleSizeOutput }}
+          bundleSizeOutput: ${{ steps.config.outputs.bundleSizeOutput }}
           
 
       - name: post bundle size report
@@ -63,7 +63,7 @@ jobs:
 
             const messageBody = "${{ steps.report.outputs.report }}"
             const issueNumber = "${{ github.event.pull_request.number }}"
-            
+
             console.log({url : `https://github.com/gobielJonathan/gh-learn/issues/${issueNumber}/comments` , body : {
               method: "POST",
               headers: baseHeaders,
