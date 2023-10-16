@@ -162,7 +162,6 @@ var removeHashFromChunk = (word) => {
   const clientPrefixRemoved = extensionRemoved.replace(/\.\/build\//gi, "");
   const chunkPrefixRemoved = clientPrefixRemoved.replace("chunk.", "");
   const periodsRemoved = chunkPrefixRemoved.replace(/\./gi, "");
-  console.log({ periodsRemoved });
   return periodsRemoved;
 };
 var prettifyBundleSizeOutput = (original) => {
@@ -365,7 +364,7 @@ var result = import_fs.default.readFileSync(import_path.default.join(import_app_
 var { bundleSizeOutput, bundleSizeFailed, possibleErrorMessage } = readReportsText(result);
 var sizeMap = getSizeMap(bundleSizeOutput);
 var commentMsg = constructCommentMessage(bundleSizeOutput, sizeMap);
-import_fs.default.writeFileSync(import_path.default.join(import_app_root_dir.default.get(), "bundle-report.html"), commentMsg);
+console.log(commentMsg);
 /*! Bundled license information:
 
 bytes/index.js:

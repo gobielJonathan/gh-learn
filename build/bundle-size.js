@@ -151,7 +151,6 @@ var removeHashFromChunk = (word) => {
   const clientPrefixRemoved = extensionRemoved.replace(/\.\/build\//gi, "");
   const chunkPrefixRemoved = clientPrefixRemoved.replace("chunk.", "");
   const periodsRemoved = chunkPrefixRemoved.replace(/\./gi, "");
-  console.log({ periodsRemoved });
   return periodsRemoved;
 };
 var prettifyBundleSizeOutput = (original) => {
