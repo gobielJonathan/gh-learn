@@ -1,0 +1,17 @@
+name: Post Comment
+description: post comment to PR
+
+inputs:
+  message_body:
+    required: true
+    description: a content that will be post in PR
+    
+runs:
+  using: composite
+  steps:
+    - name: run post comment to PR
+      run: node index.js
+      shell: bash
+      with:
+        gh_token: ${{ secret.gh_token }}
+        message_body: ${{ input.message_body }}

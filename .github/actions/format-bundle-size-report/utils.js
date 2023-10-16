@@ -1,9 +1,9 @@
-import bytes from "bytes";
+const bytes = require("bytes");
 
-export const DELIMITER_WORD = "----DELIMITER----";
-export const START_FLAG_WORD = "<<< START OF BUNDLESIZE OUTPUT >>>";
-export const END_FLAG_WORD = "<<< END OF BUNDLESIZE OUTPUT >>>";
-export const ERROR_IDENTIFIER = [
+const DELIMITER_WORD = "----DELIMITER----";
+const START_FLAG_WORD = "<<< START OF BUNDLESIZE OUTPUT >>>";
+const END_FLAG_WORD = "<<< END OF BUNDLESIZE OUTPUT >>>";
+const ERROR_IDENTIFIER = [
   "There is no matching",
   "ERROR  Config not found.",
   "ERROR",
@@ -11,7 +11,7 @@ export const ERROR_IDENTIFIER = [
   "https://github.com/siddharthkp/bundlesize#configuration",
 ];
 
-export const removeHashFromChunk = (word) => {
+const removeHashFromChunk = (word) => {
   const extensionRemoved = word
     .replace(/\.esm\.js/gi, "")
     .replace(/\.js/gi, ""); // remove extension like .js or .esm.js
@@ -31,7 +31,7 @@ export const removeHashFromChunk = (word) => {
  *
  * @returns {String} The markdown-compatible string to be used when adding a comment to GitHub pull request
  */
-export const prettifyBundleSizeOutput = (original) => {
+const prettifyBundleSizeOutput = (original) => {
   const rows = original.split(DELIMITER_WORD);
   let output = `<tr><th>Status</th><th>Filename</th><th>Ext</th><th>Size</th><th>Budgetted Size</th></tr>`;
 
@@ -108,7 +108,7 @@ export const prettifyBundleSizeOutput = (original) => {
  *   }
  * }
  */
-export const getSizeMap = (original) => {
+const getSizeMap = (original) => {
   const rows = original.split(DELIMITER_WORD);
   const output = {};
 
@@ -125,13 +125,6 @@ export const getSizeMap = (original) => {
 
     const size = trimmed[3];
     const sizeBudget = trimmed[6];
-    console.log({
-      status,
-      chunkName,
-      chunkNameWithHash,
-      size,
-      sizeBudget,
-    });
     if (!status) return;
 
     if (!chunkName) return;
@@ -153,7 +146,7 @@ export const getSizeMap = (original) => {
  *
  * @returns {Array.<ChunkInfo>} An array filled with bundle that not passing the gate
  */
-export const getFailedBundles = (sizeMap) => {
+const getFailedBundles = (sizeMap) => {
   const result = [];
 
   if (sizeMap) {
@@ -174,7 +167,7 @@ export const getFailedBundles = (sizeMap) => {
  *
  * @returns {DiffReport} The diff report of the two provided sizeMap
  */
-export const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
+const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
   const newChunks = { ...newReportSizeMap };
   const removedChunks = [];
   const diffReports = [];
@@ -228,7 +221,7 @@ export const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
  *
  * @returns {String} The markdown-compatible string to be used when adding a comment to GitHub pull request
  */
-export const prettifyDiffReport = (
+const prettifyDiffReport = (
   { diffReports, newlyAddedChunks, removedChunks },
   serviceName
 ) => {
@@ -308,30 +301,7 @@ export const prettifyDiffReport = (
   return "";
 };
 
-export function readReportsText(report) {
-  const lines = report.split("\n");
-  let possibleErrorMessage = "";
-  let bundleSizeOutput = "";
-  let bundleSizeFailed = false;
-
-  lines.forEach((line) => {
-    const isContainError =
-      (line && line.includes("There is no matching")) ||
-      line.includes("Config not found") ||
-      line.includes("You can read about the configuration options here") ||
-      line.includes("https://github.com/siddharthkp/bundlesize#configuration");
-
-    if (isContainError) {
-      bundleSizeFailed = true;
-      bundleSizeOutput += `${line}${DELIMITER_WORD}`;
-    } else {
-      bundleSizeOutput += `${line}${DELIMITER_WORD}`;
-    }
-  });
-  return { possibleErrorMessage, bundleSizeOutput, bundleSizeFailed };
-}
-
-export function constructCommentMessage(bundleSizeOutput, sizeMap) {
+function constructCommentMessage(bundleSizeOutput, sizeMap) {
   let message = "";
   message += "Nice looking PR you have here.\n\n";
 
@@ -342,3 +312,8 @@ export function constructCommentMessage(bundleSizeOutput, sizeMap) {
   message += `${prettifyBundleSizeOutput(bundleSizeOutput)}</details>`;
   return message;
 }
+
+module.exports = {
+  getSizeMap,
+  constructCommentMessage,
+};

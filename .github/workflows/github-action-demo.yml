@@ -1,6 +1,11 @@
 name: action demo
 run-name: ${{ github.actor }} is testing out github action
-on: [push]
+
+on: 
+  push:
+  pull_request:
+    types: [opened,synchronize]
+
 env: 
   build_dir: "build"
 
@@ -34,8 +39,39 @@ jobs:
       - name: bundle size
         run: pnpm bundle-size
 
-      - name: get bundle size report
-        run: node $build_dir/create-table.js
+      - name: get bundle size config
+        id: config
+        uses: ./.github/actions/bundle-size
+
+      - name: format bundle size report 
+        id: report
+        uses: ./.github/actions/format-bundle-size-report
+        with:
+          output: ${{ config.outputs.config.bundleSizeOutput }}
+          
+
+      - name: post bundle size report
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const baseHeaders = {
+              Accept: "application/vnd.github.v3+json",
+              "Content-Type": "application/json",
+              Authorization: `token ${{ secrets.gh_token }}`,
+              "User-Agent": "tokopedia-lite-pull-request-bot",
+            };
+
+            const messageBody = ${{ report.outputs.report }}
+            const issueNumber = ${{ github.event.pull_request.number }}
+            
+            (async function addComment() {
+              await fetch(`https://api.github.com/repos/tokopedia/skipper-web-framework/issues/${issueNumber}/comments`, {
+                method: "POST",
+                headers: baseHeaders,
+                body: JSON.stringify(messageBody),
+              });
+            })();
+
       
       
       

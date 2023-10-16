@@ -1,0 +1,18 @@
+name: Format report
+description: format bundle size report
+
+inputs:
+  output: 
+    required: true
+    description: bundle size report output
+    
+runs:
+  using: composite
+  steps:
+    - name: format bundle size report
+      shell: bash
+      run: node index.js
+      with:
+        bundle-size-output: {{ input.output }}
+
+    

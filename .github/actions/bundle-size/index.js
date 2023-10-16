@@ -1,7 +1,8 @@
-import fs from "fs";
-import path from "path";
-import * as bundler from "./bundle-size";
-import approotdir from "app-root-dir";
+const fs = require("fs");
+const path = require("path");
+const bundler = require("./utils");
+const approotdir = require("app-root-dir");
+const core = require("@actions/core");
 
 const filename = "bundle-size-report.txt";
 
@@ -10,8 +11,10 @@ const result = fs.readFileSync(path.join(approotdir.get(), filename), "utf-8");
 const { bundleSizeOutput, bundleSizeFailed, possibleErrorMessage } =
   bundler.readReportsText(result);
 
-const sizeMap = bundler.getSizeMap(bundleSizeOutput);
+core.setOutput("config", {
+  bundleSizeOutput,
+  bundleSizeFailed,
+  possibleErrorMessage,
+});
 
-const commentMsg = bundler.constructCommentMessage(bundleSizeOutput, sizeMap);
-console.log(commentMsg);
 // fs.writeFileSync(path.join(approotdir.get(), "bundle-report.html"), commentMsg);
