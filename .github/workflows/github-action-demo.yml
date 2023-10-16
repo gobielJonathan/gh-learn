@@ -46,7 +46,7 @@ jobs:
         id: report
         uses: ./.github/actions/format-bundle-size-report
         with:
-          output: ${{ config.outputs.config.bundleSizeOutput }}
+          output: ${{ steps.config.outputs.config.bundleSizeOutput }}
           
 
       - name: post bundle size report
@@ -60,7 +60,7 @@ jobs:
               "User-Agent": "tokopedia-lite-pull-request-bot",
             };
 
-            const messageBody = ${{ report.outputs.report }}
+            const messageBody = ${{ steps.report.outputs.report }}
             const issueNumber = ${{ github.event.pull_request.number }}
             
             (async function addComment() {
