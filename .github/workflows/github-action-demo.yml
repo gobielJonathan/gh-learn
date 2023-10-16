@@ -23,7 +23,10 @@ jobs:
           version: 8
 
       - name: install deps
-        run: pnpm add -g @wpe-tkpd/bundlesize
+        run: pnpm install
+
+      - name: install bundlesize standalone deps
+        run:  pnpm add -g @wpe-tkpd/bundlesize
 
       - name: build code
         run: pnpm build
