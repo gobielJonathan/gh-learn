@@ -230,6 +230,8 @@ function constructCommentMessage(
   console.log("latestMasterSizemap", latestMasterSizemap);
 
   const diffs = getDiffReport(sizeMap, latestMasterSizemap);
+
+  console.log("diffs", diffs);
   message += prettifyDiffReport(diffs, "skiper-app-template");
 
   message += `<details><summary>Here is the complete <b><i>bundlesize</i></b> report for it:</summary>`;
