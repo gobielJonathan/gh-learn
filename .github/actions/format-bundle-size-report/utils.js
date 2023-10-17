@@ -128,7 +128,7 @@ const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
       sizeBudget: newChunks[key].sizeBudget,
     });
   });
-
+  console.groupEnd();
   return { diffReports, newlyAddedChunks, removedChunks };
 };
 
@@ -228,7 +228,7 @@ function constructCommentMessage(
   message += "Nice looking PR you have here.\n\n";
 
   const diffs = getDiffReport(sizeMap, latestMasterSizemap);
-  console.log("payload", JSON.stringify({ sizeMap, latestMasterSizemap }));
+
   message += prettifyDiffReport(diffs, "skiper-app-template");
 
   message += `<details><summary>Here is the complete <b><i>bundlesize</i></b> report for it:</summary>`;

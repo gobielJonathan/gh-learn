@@ -54,6 +54,8 @@ jobs:
 
       - name: checkout git
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: setup pnpm
         uses: pnpm/action-setup@v2
