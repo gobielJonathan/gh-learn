@@ -6,8 +6,6 @@ const bundleSizeStr = core.getInput("bundleSizeStr");
 
 const masterBundleSizeMap = core.getInput("masterBundleSizeMap");
 
-console.log("masterBundleSizeMap ", JSON.stringify(masterBundleSizeMap));
-
 const commentMsg = bundler.constructCommentMessage(
   bundleSizeStr,
   bundleSizeMap,

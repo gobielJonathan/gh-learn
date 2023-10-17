@@ -226,9 +226,10 @@ function constructCommentMessage(
   let message = `👋 Hi, I am Kratos!\n`;
 
   message += "Nice looking PR you have here.\n\n";
+  console.log("size map", sizeMap);
+  console.log("latestMasterSizemap", latestMasterSizemap);
 
   const diffs = getDiffReport(sizeMap, latestMasterSizemap);
-  console.log("payload", JSON.stringify({ sizeMap, latestMasterSizemap }));
   message += prettifyDiffReport(diffs, "skiper-app-template");
 
   message += `<details><summary>Here is the complete <b><i>bundlesize</i></b> report for it:</summary>`;
