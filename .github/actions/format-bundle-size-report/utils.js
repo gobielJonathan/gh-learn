@@ -91,6 +91,8 @@ const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
   const newChunks = { ...newReportSizeMap };
   const removedChunks = [];
   const diffReports = [];
+  console.group("getDiffReport");
+  console.log("oldReportSizeMap ", oldReportSizeMap);
 
   Object.keys(oldReportSizeMap).forEach((key) => {
     if (newReportSizeMap[key]) {
@@ -128,7 +130,7 @@ const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
       sizeBudget: newChunks[key].sizeBudget,
     });
   });
-
+  console.groupEnd();
   return { diffReports, newlyAddedChunks, removedChunks };
 };
 
