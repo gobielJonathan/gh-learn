@@ -91,8 +91,6 @@ const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
   const newChunks = { ...newReportSizeMap };
   const removedChunks = [];
   const diffReports = [];
-  console.group("getDiffReport");
-  console.log("oldReportSizeMap ", oldReportSizeMap);
 
   Object.keys(oldReportSizeMap).forEach((key) => {
     if (newReportSizeMap[key]) {
@@ -228,12 +226,9 @@ function constructCommentMessage(
   let message = `👋 Hi, I am Kratos!\n`;
 
   message += "Nice looking PR you have here.\n\n";
-  console.log("size map", sizeMap);
-  console.log("latestMasterSizemap", latestMasterSizemap);
 
   const diffs = getDiffReport(sizeMap, latestMasterSizemap);
 
-  console.log("diffs", diffs);
   message += prettifyDiffReport(diffs, "skiper-app-template");
 
   message += `<details><summary>Here is the complete <b><i>bundlesize</i></b> report for it:</summary>`;
