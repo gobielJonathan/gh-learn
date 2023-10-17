@@ -9,8 +9,8 @@ on:
 jobs:
   get-master-bundle-size:
      runs-on: ubuntu-22.04
-    #  outputs:
-    #    bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
+     outputs:
+       bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
      steps:
       - name: setup node
         uses: actions/setup-node@v3
@@ -64,7 +64,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: install bundlesize standalone deps
-        run:  pnpm add -g @wpe-tkpd/bundlesize
+        run:  pnpm add -g @wpe-tkpd/bundlesize >> /dev/null || true
 
       - name: build code
         run: pnpm build
@@ -82,7 +82,7 @@ jobs:
         with:
           bundleSizeStr: ${{ steps.config.outputs.bundleSizeStr }}
           bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
-          masterBundleSizeMap: ${{ needs.get-master-bundle-size.outputs.bundleSize }}
+          masterBundleSizeMap: ${{ needs.get-master-bundle-size.outputs.bundleSizeMap }}
           
 
       - name: post report
