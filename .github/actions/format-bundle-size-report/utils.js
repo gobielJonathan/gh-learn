@@ -268,6 +268,5 @@ function constructCommentMessage(
 }
 
 module.exports = {
-  getSizeMap,
   constructCommentMessage,
 };
