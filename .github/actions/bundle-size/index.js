@@ -9,6 +9,7 @@ const filename = "bundle-size-report.txt";
 const result = fs.readFileSync(path.join(approotdir.get(), filename), "utf-8");
 
 const { bundleSizeOutput } = bundler.readReportsText(result);
+console.log("1231");
 
 const sizeMap = bundler.getSizeMap(bundleSizeOutput);
 
@@ -18,7 +19,7 @@ if (!sizeMap) {
   );
   return;
 }
-console.log({ sizeMap, bundleSizeOutput });
+
 core.setOutput("bundleSizeMap", sizeMap);
 core.setOutput("bundleSizeStr", bundleSizeOutput);
 
