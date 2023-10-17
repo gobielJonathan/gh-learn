@@ -10,6 +10,7 @@ const result = fs.readFileSync(path.join(approotdir.get(), filename), "utf-8");
 
 const { bundleSizeOutput, bundleSizeFailed, possibleErrorMessage } =
   bundler.readReportsText(result);
+console.log("bundlesize output ", bundleSizeOutput);
 core.setOutput("bundleSizeOutput", bundleSizeOutput);
 core.setOutput("bundleSizeFailed", bundleSizeFailed);
 core.setOutput("possibleErrorMessage", possibleErrorMessage);
