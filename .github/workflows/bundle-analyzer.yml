@@ -12,6 +12,8 @@ env:
 jobs:
   get-master-bundle-size:
      runs-on: ubuntu-22.04
+     outputs:
+       report: ${{ steps.config.outputs }}
      steps:
       - name: setup node
         uses: actions/setup-node@v3
@@ -45,6 +47,7 @@ jobs:
         uses: ./.github/actions/bundle-size
 
   generate-report: 
+    needs: get-master-bundle-size
     runs-on: ubuntu-22.04
     steps:
       - name: setup node
@@ -81,7 +84,7 @@ jobs:
         uses: ./.github/actions/format-bundle-size-report
         with:
           bundleSizeOutput: ${{ steps.config.outputs.bundleSizeOutput }}
-          masterBundleSize: ${{ jobs.get-master-bundle-size.steps.config.outputs.bundleSizeOutput }}
+          masterBundleSize: ${{ needs.get-master-bundle-size.outputs.report.bundleSizeOutput }}
           
 
       - name: post bundle size report
