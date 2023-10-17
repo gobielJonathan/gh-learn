@@ -4,11 +4,11 @@ const bundler = require("./utils");
 const approotdir = require("app-root-dir");
 const core = require("@actions/core");
 
+const { bundleSizeOutput } = bundler.readReportsText(result);
 const filename = "bundle-size-report.txt";
 
 const result = fs.readFileSync(path.join(approotdir.get(), filename), "utf-8");
 
-const { bundleSizeOutput } = bundler.readReportsText(result);
 console.log("1231");
 
 const sizeMap = bundler.getSizeMap(bundleSizeOutput);
