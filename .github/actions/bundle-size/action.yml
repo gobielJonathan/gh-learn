@@ -2,12 +2,10 @@ name: Bundle Size report
 description: generate bundle size report
 
 outputs:
-  bundleSizeOutput:
-    description: bundle size output
-  bundleSizeFailed:
-    description: bundle size failed
-  possibleErrorMessage:
-    description: possible error message
+  bundleSizeMap:
+    description: bundle size output in map
+  bundleSizeStr:
+    description: bundle size in formatted string
     
 runs:
   using: node16

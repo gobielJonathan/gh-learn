@@ -13,7 +13,7 @@ jobs:
   get-master-bundle-size:
      runs-on: ubuntu-22.04
      outputs:
-       bundleSize: ${{ steps.config.outputs.bundleSizeOutput }}
+       bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
      steps:
       - name: setup node
         uses: actions/setup-node@v3
@@ -83,8 +83,9 @@ jobs:
         id: report
         uses: ./.github/actions/format-bundle-size-report
         with:
-          bundleSizeOutput: ${{ steps.config.outputs.bundleSizeOutput }}
-          masterBundleSize: ${{ needs.get-master-bundle-size.outputs.bundleSize }}
+          bundleSizeStr: ${{ steps.config.outputs.bundleSizeStr }}
+          bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
+          masterBundleSizeMap: ${{ needs.get-master-bundle-size.outputs.bundleSize }}
           
 
       - name: post bundle size report

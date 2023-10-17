@@ -1,22 +1,17 @@
 const bundler = require("./utils");
 const core = require("@actions/core");
 
-const bundleSizeOutput = core.getInput("bundleSizeOutput");
-const masterBundleSize = core.getInput("masterBundleSize");
+const bundleSizeMap = core.getInput("bundleSizeMap");
+const bundleSizeStr = core.getInput("bundleSizeStr");
 
-const sizeMap = bundler.getSizeMap(bundleSizeOutput);
+const masterBundleSizeMap = core.getInput("masterBundleSizeMap");
 
-if (!sizeMap) {
-  core.setFailed(
-    "💥 Failed to generate `sizeMap` from `npx @wpe-tkpd/bundlesize` output"
-  );
-  return null;
-}
+console.log("masterBundleSizeMap ", JSON.stringify(masterBundleSizeMap));
 
 const commentMsg = bundler.constructCommentMessage(
-  bundleSizeOutput,
-  sizeMap,
-  masterBundleSize
+  bundleSizeStr,
+  bundleSizeMap,
+  masterBundleSizeMap
 );
 
 core.setOutput("report", commentMsg);
