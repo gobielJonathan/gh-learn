@@ -6,14 +6,11 @@ on:
   pull_request:
     types: [opened,synchronize]
 
-env: 
-  build_dir: "build"
-
 jobs:
   get-master-bundle-size:
      runs-on: ubuntu-22.04
-     outputs:
-       bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
+    #  outputs:
+    #    bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
      steps:
       - name: setup node
         uses: actions/setup-node@v3
@@ -39,7 +36,7 @@ jobs:
       - name: build code
         run: pnpm build
 
-      - name: bundle size
+      - name: generate bundle size
         run: pnpm bundle-size
 
       - name: get bundle size config
@@ -72,14 +69,14 @@ jobs:
       - name: build code
         run: pnpm build
 
-      - name: bundle size
+      - name: generate bundle size
         run: pnpm bundle-size
 
       - name: get bundle size config
         id: config
         uses: ./.github/actions/bundle-size
 
-      - name: format bundle size report 
+      - name: format report 
         id: report
         uses: ./.github/actions/format-bundle-size-report
         with:
@@ -88,7 +85,7 @@ jobs:
           masterBundleSizeMap: ${{ needs.get-master-bundle-size.outputs.bundleSize }}
           
 
-      - name: post bundle size report
+      - name: post report
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GH_TOKEN }}
