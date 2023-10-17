@@ -1,11 +1,17 @@
 const bundler = require("./utils");
 const core = require("@actions/core");
 
-const bundleSizeOutput = core.getInput("bundle-size-output");
+const bundleSizeMap = core.getInput("bundleSizeMap");
+const bundleSizeStr = core.getInput("bundleSizeStr");
 
-const sizeMap = bundler.getSizeMap(bundleSizeOutput);
+const masterBundleSizeMap = core.getInput("masterBundleSizeMap");
 
-const commentMsg = bundler.constructCommentMessage(bundleSizeOutput, sizeMap);
+console.log("masterBundleSizeMap ", JSON.stringify(masterBundleSizeMap));
+
+const commentMsg = bundler.constructCommentMessage(
+  bundleSizeStr,
+  bundleSizeMap,
+  masterBundleSizeMap
+);
+
 core.setOutput("report", commentMsg);
-
-// fs.writeFileSync(path.join(approotdir.get(), "bundle-report.html"), commentMsg);

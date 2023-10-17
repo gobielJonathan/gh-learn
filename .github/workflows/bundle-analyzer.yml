@@ -1,0 +1,104 @@
+name: Bundle Analyzer
+run-name: ${{ github.actor }} is testing out github action
+
+on: 
+  workflow_dispatch:
+  pull_request:
+    types: [opened,synchronize]
+
+jobs:
+  get-master-bundle-size:
+     runs-on: ubuntu-22.04
+     outputs:
+       bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
+     steps:
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.17'
+
+      - name: checkout git
+        uses: actions/checkout@v4
+        with:
+          ref: 'main'
+
+      - name: setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: install deps
+        run: pnpm install --no-frozen-lockfile
+
+      - name: install bundlesize standalone deps
+        run:  pnpm add -g @wpe-tkpd/bundlesize >> /dev/null || true
+
+      - name: build code
+        run: pnpm build
+
+      - name: generate bundle size
+        run: pnpm bundle-size
+
+      - name: get bundle size config
+        id: config
+        uses: ./.github/actions/bundle-size
+
+  generate-report: 
+    needs: get-master-bundle-size
+    runs-on: ubuntu-22.04
+    steps:
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.17'
+
+      - name: checkout git
+        uses: actions/checkout@v4
+
+      - name: setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: install deps
+        run: pnpm install --no-frozen-lockfile
+
+      - name: install bundlesize standalone deps
+        run:  pnpm add -g @wpe-tkpd/bundlesize >> /dev/null || true
+
+      - name: build code
+        run: pnpm build
+
+      - name: generate bundle size
+        run: pnpm bundle-size
+
+      - name: get bundle size config
+        id: config
+        uses: ./.github/actions/bundle-size
+
+      - name: format report 
+        id: report
+        uses: ./.github/actions/format-bundle-size-report
+        with:
+          bundleSizeStr: ${{ steps.config.outputs.bundleSizeStr }}
+          bundleSizeMap: ${{ steps.config.outputs.bundleSizeMap }}
+          masterBundleSizeMap: ${{ needs.get-master-bundle-size.outputs.bundleSizeMap }}
+          
+
+      - name: post report
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const messageBody = `${{ steps.report.outputs.report }}`
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: messageBody
+            })
+
+      
+      
+      

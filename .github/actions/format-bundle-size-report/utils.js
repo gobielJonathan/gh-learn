@@ -1,15 +1,6 @@
 const bytes = require("bytes");
 
 const DELIMITER_WORD = "----DELIMITER----";
-const START_FLAG_WORD = "<<< START OF BUNDLESIZE OUTPUT >>>";
-const END_FLAG_WORD = "<<< END OF BUNDLESIZE OUTPUT >>>";
-const ERROR_IDENTIFIER = [
-  "There is no matching",
-  "ERROR  Config not found.",
-  "ERROR",
-  "You can read about the configuration options here",
-  "https://github.com/siddharthkp/bundlesize#configuration",
-];
 
 const removeHashFromChunk = (word) => {
   const extensionRemoved = word
@@ -91,77 +82,6 @@ const prettifyBundleSizeOutput = (original) => {
 
 /**
  * @param {String} original The string output from running the `bundlesize` command
- *
- * @returns {Object.<string, ChunkInfo>} A map of each chunks with each of their informations
- * i. e.: {
- *   'vendor': {
- *     status: 'FAIL',
- *     chunkNameWithHash: './client/vendor.1239898s12hd1.js',
- *     size: '90KB',
- *     sizeBudget: '80KB',
- *   },
- *   'mobile': {
- *     status: 'PASS',
- *     chunkNameWithHash: './client/mobile.1239898s12hd1.js',
- *     size: '60KB',
- *     sizeBudget: '80KB',
- *   }
- * }
- */
-const getSizeMap = (original) => {
-  const rows = original.split(DELIMITER_WORD);
-  const output = {};
-
-  rows.forEach((row) => {
-    const trimmed = row.trim().split(" ");
-
-    if (trimmed.length < 7) return;
-
-    const status = trimmed[0];
-    const chunkNameWithHash = trimmed[2].substring(0, trimmed[2].length - 1); // remove extra trailing `:` character
-    const chunkName = removeHashFromChunk(chunkNameWithHash);
-    const ext = chunkNameWithHash.endsWith(".esm.js") ? "esm" : "js";
-    if (ext === "esm") return;
-
-    const size = trimmed[3];
-    const sizeBudget = trimmed[6];
-    if (!status) return;
-
-    if (!chunkName) return;
-
-    output[chunkName] = {
-      status,
-      chunkNameWithHash,
-      size,
-      sizeBudget,
-      ext,
-    };
-  });
-
-  return output;
-};
-
-/**
- * @param {Object.<string, ChunkInfo>} sizeMap The object constructed from `getSizeMap`
- *
- * @returns {Array.<ChunkInfo>} An array filled with bundle that not passing the gate
- */
-const getFailedBundles = (sizeMap) => {
-  const result = [];
-
-  if (sizeMap) {
-    Object.keys(sizeMap).forEach((key) => {
-      if (sizeMap[key].status === "FAIL") {
-        result.push(sizeMap[key]);
-      }
-    });
-  }
-
-  return result;
-};
-
-/**
- * @param {String} original The string output from running the `bundlesize` command
  * @param {Object.<string, ChunkInfo>} newReportSizeMap
  * @param {Object.<string, ChunkInfo>} oldReportSizeMap
  *
@@ -188,10 +108,7 @@ const getDiffReport = (newReportSizeMap, oldReportSizeMap) => {
 
       delete newChunks[key];
     } else {
-      removedChunks.push({
-        // chunkName: key,
-        ...oldReportSizeMap[key],
-      });
+      removedChunks.push(oldReportSizeMap[key]);
     }
   });
 
@@ -301,11 +218,17 @@ const prettifyDiffReport = (
   return "";
 };
 
-function constructCommentMessage(bundleSizeOutput, sizeMap) {
-  let message = "";
+function constructCommentMessage(
+  bundleSizeOutput,
+  sizeMap,
+  latestMasterSizemap
+) {
+  let message = `👋 Hi, I am Kratos!\n`;
+
   message += "Nice looking PR you have here.\n\n";
 
-  const diffs = getDiffReport(sizeMap, {});
+  const diffs = getDiffReport(sizeMap, latestMasterSizemap);
+  console.log("payload", JSON.stringify({ sizeMap, latestMasterSizemap }));
   message += prettifyDiffReport(diffs, "skiper-app-template");
 
   message += `<details><summary>Here is the complete <b><i>bundlesize</i></b> report for it:</summary>`;
@@ -314,6 +237,5 @@ function constructCommentMessage(bundleSizeOutput, sizeMap) {
 }
 
 module.exports = {
-  getSizeMap,
   constructCommentMessage,
 };

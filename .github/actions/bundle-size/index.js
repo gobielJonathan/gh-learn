@@ -8,10 +8,15 @@ const filename = "bundle-size-report.txt";
 
 const result = fs.readFileSync(path.join(approotdir.get(), filename), "utf-8");
 
-const { bundleSizeOutput, bundleSizeFailed, possibleErrorMessage } =
-  bundler.readReportsText(result);
-core.setOutput("bundleSizeOutput", bundleSizeOutput);
-core.setOutput("bundleSizeFailed", bundleSizeFailed);
-core.setOutput("possibleErrorMessage", possibleErrorMessage);
+const { bundleSizeOutput } = bundler.readReportsText(result);
 
-// fs.writeFileSync(path.join(approotdir.get(), "bundle-report.html"), commentMsg);
+const sizeMap = bundler.getSizeMap(bundleSizeOutput);
+
+if (!sizeMap) {
+  core.setFailed(
+    "💥 Failed to generate `sizeMap` from `npx @wpe-tkpd/bundlesize` output"
+  );
+}
+
+core.setOutput("bundleSizeMap", sizeMap);
+core.setOutput("bundleSizeStr", bundleSizeOutput);

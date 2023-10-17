@@ -2,10 +2,15 @@ name: Format report
 description: format bundle size report
 
 inputs:
-  bundleSizeOutput: 
+  masterBundleSizeMap: 
     required: true
-    description: bundle size report output
-
+    description: master bundle size map report
+  bundleSizeStr:
+    required: true
+    description: current ref branch bundle size in formatted string
+  bundleSizeMap:
+    required: true
+    description: current ref branch bundle size in map object
 
 outputs:
   report: 
