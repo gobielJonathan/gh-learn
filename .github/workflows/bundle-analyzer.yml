@@ -31,7 +31,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: install bundlesize standalone deps
-        run:  pnpm add -g @wpe-tkpd/bundlesize
+        run:  pnpm add -g @wpe-tkpd/bundlesize 2> /dev/null || true
 
       - name: build code
         run: pnpm build
