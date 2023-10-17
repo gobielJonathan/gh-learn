@@ -12,6 +12,10 @@ const { bundleSizeOutput } = bundler.readReportsText(result);
 
 const sizeMap = bundler.getSizeMap(bundleSizeOutput);
 
+core.setFailed(
+  "💥 Failed to generate `sizeMap` from `npx @wpe-tkpd/bundlesize` output"
+);
+
 if (!sizeMap) {
   core.setFailed(
     "💥 Failed to generate `sizeMap` from `npx @wpe-tkpd/bundlesize` output"
