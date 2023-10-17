@@ -18,7 +18,7 @@ if (!sizeMap) {
   );
   return;
 }
-
+console.log({ sizeMap, bundleSizeOutput });
 core.setOutput("bundleSizeMap", sizeMap);
 core.setOutput("bundleSizeStr", bundleSizeOutput);
 
