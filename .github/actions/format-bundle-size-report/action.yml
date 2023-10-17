@@ -5,7 +5,9 @@ inputs:
   bundleSizeOutput: 
     required: true
     description: bundle size report output
-
+  masterBundleSize: 
+    required: true
+    description: master bundle size report
 
 outputs:
   report: 

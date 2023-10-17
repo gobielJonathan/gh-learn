@@ -301,11 +301,16 @@ const prettifyDiffReport = (
   return "";
 };
 
-function constructCommentMessage(bundleSizeOutput, sizeMap) {
-  let message = "";
+function constructCommentMessage(
+  bundleSizeOutput,
+  sizeMap,
+  latestMasterSizemap
+) {
+  let message = `👋 Hi, I am Kratos!\n`;
+
   message += "Nice looking PR you have here.\n\n";
 
-  const diffs = getDiffReport(sizeMap, {});
+  const diffs = getDiffReport(sizeMap, latestMasterSizemap);
   message += prettifyDiffReport(diffs, "skiper-app-template");
 
   message += `<details><summary>Here is the complete <b><i>bundlesize</i></b> report for it:</summary>`;
